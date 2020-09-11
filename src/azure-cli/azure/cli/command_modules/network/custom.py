@@ -4177,7 +4177,7 @@ def _create_nw_connection_monitor_v1(cmd,
         test_configurations=None,
         test_groups=None,
         outputs=None,
-        nots=None
+        notes=None
     )
 
     return cmv1
@@ -5042,6 +5042,10 @@ def update_nw_flow_log(cmd,
         workspace = get_arm_resource_by_id(cmd.cli_ctx, traffic_analytics_workspace)
         if not workspace:
             raise CLIError('Name or ID of workspace is invalid')
+
+        if instance.flow_analytics_configuration.network_watcher_flow_analytics_configuration is None:
+            analytics_conf = cmd.get_models('TrafficAnalyticsConfigurationProperties')
+            instance.flow_analytics_configuration.network_watcher_flow_analytics_configuration = analytics_conf()
 
         with cmd.update_context(
                 instance.flow_analytics_configuration.network_watcher_flow_analytics_configuration) as c:
